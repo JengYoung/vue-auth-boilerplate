@@ -1,11 +1,18 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-  </nav>
-  <router-view/>
+  <header class="header">Vue Auth Template</header>
+  <router-view />
 </template>
 
-<style lang="scss">
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+export default defineComponent({
+
+});
+</script>
+
+<style lang="scss" scoped>
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -14,16 +21,21 @@
   color: #2c3e50;
 }
 
-nav {
-  padding: 30px;
+.header {
+  display: flex;
+  align-items: center;
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+  width: 100vw;
+  height: 5rem;
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+  padding: $padding-default;
+
+  background: black;
+
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -1px;
+  color: white;
 }
+
 </style>
