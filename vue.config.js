@@ -5,7 +5,8 @@ module.exports = defineConfig({
   css: {
     loaderOptions: {
       sass: {
-        additionalData: '@import \'@/assets/main.scss\';',
+        // eslint-disable-next-line
+        additionalData: "@import '@/assets/main.scss\'",
       },
     },
   },
