@@ -1,5 +1,5 @@
 <template>
-  <div class="sign-in">
+  <div class="sign-in container">
     <Form>
       <h1 class="form__header">로그인</h1>
       <!-- eslint-disable vuejs-accessibility/form-control-has-label  -->
@@ -39,11 +39,10 @@ export default defineComponent({
 <style lang="scss" scoped>
 
 .sign-in {
-  height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   .form__header {
     margin: 0 0 2rem 0;
   }
