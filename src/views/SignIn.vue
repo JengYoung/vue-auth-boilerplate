@@ -3,14 +3,9 @@
     <Form>
       <h1 class="form__header">로그인</h1>
       <!-- eslint-disable vuejs-accessibility/form-control-has-label  -->
-      <label class="form__label" for="id">
-        <span>아이디</span>
-        <input type="text" class="form__input" id="id">
-      </label>
-      <label class="form__label" for="id">
-        <span>비밀번호</span>
-        <input type="text" class="form__input" id="password">
-      </label>
+
+      <LabelInput name="아이디" uniqueInputId="id"></LabelInput>
+      <LabelInput name="비밀번호" uniqueInputId="password"></LabelInput>
 
       <FormButton type="submit" @click.prevent="onSubmit">로그인하기</FormButton>
     </Form>
@@ -21,11 +16,13 @@
 import { defineComponent } from 'vue';
 import Form from '@/components/Form/index.vue';
 import FormButton from '@/components/Button/FormButton.vue';
+import LabelInput from '@/components/Input/LabelInput.vue';
 
 export default defineComponent({
   components: {
     Form,
     FormButton,
+    LabelInput,
   },
   setup() {
     const onSubmit = () => {
@@ -51,31 +48,5 @@ export default defineComponent({
     margin-bottom: 2rem;
   }
 
-  .form__label {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 1rem;
-
-    span {
-      margin-bottom: 0.5rem;
-      font-weight: 500;
-    }
-
-    .form__input {
-      height: 40px;
-      margin-bottom: 1rem;
-
-      border: none;
-      border-bottom: 1px solid lightgray;
-
-      outline: none;
-      font-size: 1.125rem;
-
-      &:focus {
-        border-bottom: 1px solid #fcc6d2;
-        transition: all 0.3s;
-      }
-    }
-  }
 }
 </style>
