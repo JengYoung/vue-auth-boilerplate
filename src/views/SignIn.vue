@@ -45,7 +45,7 @@ export default defineComponent({
   align-items: center;
   justify-content: center;
   .form__header {
-    margin-bottom: 2rem;
+    margin: 0 0 2rem 0;
   }
 
 }
