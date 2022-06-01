@@ -8,6 +8,12 @@
       <LabelInput name="비밀번호" uniqueInputId="password"></LabelInput>
 
       <FormButton type="submit" @click.prevent="onSubmit">로그인하기</FormButton>
+      <router-link
+        class="form__register-page-link"
+        to="sign-up"
+      >
+        회원가입
+      </router-link>
     </Form>
   </div>
 </template>
@@ -46,6 +52,19 @@ export default defineComponent({
   background: $primary100;
   .form__header {
     margin: 0 0 2rem 0;
+  }
+  .form__register-page-link {
+    margin-top: 1rem;
+
+    text-decoration: none;
+    text-align: center;
+
+    color: #999999;
+
+    &:hover {
+      transition: all 0.3s;
+      color: $primary500;
+    }
   }
 
 }
