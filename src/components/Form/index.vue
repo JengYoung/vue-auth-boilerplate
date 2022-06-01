@@ -17,6 +17,8 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .form {
+  box-sizing: border-box;
+
   display: flex;
   flex-direction: column;
 
@@ -28,6 +30,6 @@ export default defineComponent({
   border: 1px solid lightgray;
   border-radius: 20px;
 
-  box-sizing: border-box;
+  background-color: white;
 }
 </style>
