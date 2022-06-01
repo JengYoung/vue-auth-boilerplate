@@ -43,6 +43,7 @@ export default defineComponent({
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background: $primary100;
   .form__header {
     margin: 0 0 2rem 0;
   }

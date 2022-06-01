@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo " 🟠 Lint Check... 🟠"
+
+yarn lint-staged;
+
+echo " 🟢 Finished Lint Check! 🟢"
+
