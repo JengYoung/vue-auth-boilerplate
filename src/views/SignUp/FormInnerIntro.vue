@@ -3,7 +3,7 @@
     <h1>5분 안에 간편하게</h1>
     <h3>회원 가입을 완료해볼까요? 🙌</h3>
   </header>
-  <FormButton @click="() => updateStage(true)">시작하기</FormButton>
+  <FormButton class="form-inner__button" @click="() => updateStage(true)">시작하기</FormButton>
 </template>
 
 <script lang="ts">
@@ -29,6 +29,13 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .form-inner__header {
-  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  // margin-bottom: 2rem;
+  height: 240px;
+  justify-content: center;
+}
+.form-inner__button {
+  margin-top: auto;
 }
 </style>

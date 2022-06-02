@@ -1,6 +1,6 @@
 <template>
-  <div class="sign-up">
-    <Form>
+  <div class="sign-up container">
+    <Form class="sign-up__form">
       <component :is="stages[nowStage].stage" @update:stages="updateStages"></component>
     </Form>
   </div>
@@ -58,6 +58,17 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+.sign-up {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .sign-up__form {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    min-height: 400px;
+  }
+}
 </style>
