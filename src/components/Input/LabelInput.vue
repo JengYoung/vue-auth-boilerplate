@@ -2,7 +2,7 @@
   <div class="label-input">
     <label class="label-input__label" :for="uniqueInputId">
       <span class="label-input__name">{{ name }}</span>
-      <input type="text" class="label-input__input" :id="uniqueInputId">
+      <input type="text" class="label-input__input" :id="uniqueInputId" :placeholder="placeholder">
     </label>
   </div>
 </template>
@@ -15,6 +15,7 @@ export default defineComponent({
   props: {
     uniqueInputId: String,
     name: String,
+    placeholder: String,
   },
   setup() {
     return {};

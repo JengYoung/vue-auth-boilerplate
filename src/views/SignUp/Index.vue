@@ -11,6 +11,7 @@ import { defineComponent, ref, computed } from 'vue';
 import Form from '@/components/Form/index.vue';
 import FormInnerIntro from '@/views/SignUp/FormInnerIntro.vue';
 import FormInnerFinish from '@/views/SignUp/FormInnerFinish.vue';
+import FormInnerID from '@/views/SignUp/FormInnerID.vue';
 
 interface StageInterface {
   stage: string;
@@ -21,24 +22,29 @@ export default defineComponent({
   components: {
     Form,
     FormInnerIntro,
+    FormInnerID,
     FormInnerFinish,
   },
   emits: ['update:stages'],
   setup() {
     const stages = ref<StageInterface[]>([
       { stage: 'FormInnerIntro', checked: false },
+      { stage: 'FormInnerID', checked: false },
       { stage: 'FormInnerFinish', checked: false },
     ]);
 
     const nowStage = computed(() => {
       let flag = false;
       let cnt = 0;
-      stages.value.forEach(({ checked }) => {
+      stages.value.forEach(({ checked }, idx) => {
+        console.log(checked, cnt, idx);
         if (flag) return;
+
         if (!checked) {
           flag = true;
           return;
         }
+
         cnt += 1;
       });
 
@@ -64,10 +70,13 @@ export default defineComponent({
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
   .sign-up__form {
     display: flex;
     flex-direction: column;
+
     position: relative;
+
     min-height: 400px;
   }
 }
