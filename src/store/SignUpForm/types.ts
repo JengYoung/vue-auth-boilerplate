@@ -1,9 +1,10 @@
 export interface SignUpFormState {
   id: string;
   password: string;
+  name: string;
+  birthday: string;
   email: string;
   phoneNumber: string;
-  birthday: string;
 }
 
 export interface RootState {
