@@ -3,7 +3,7 @@
     <label class="label-input__label" :for="uniqueInputId">
       <span class="label-input__name">{{ name }}</span>
       <input
-        type="text"
+        :type="type"
         class="label-input__input"
         :id="uniqueInputId"
         :placeholder="placeholder"
@@ -19,6 +19,10 @@ import { computed, defineComponent } from 'vue';
 export default defineComponent({
   name: 'FormContainer',
   props: {
+    type: {
+      type: String,
+      default: 'text',
+    },
     inputValue: {
       type: [String, Number],
       default: '',

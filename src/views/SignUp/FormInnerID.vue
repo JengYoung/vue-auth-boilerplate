@@ -29,21 +29,21 @@ export default defineComponent({
 
   setup(props, { emit }) {
     const inputValue = ref('');
-    const $store = useStore();
+    const store = useStore();
 
     const updateStage = (checked: boolean) => {
       emit('update:stages', { stage: 'FormInnerID', checked });
     };
 
     const updateInputValue = (value: string | number) => {
-      $store.dispatch('signUp/updateState', { id: value });
+      store.dispatch('signUp/updateState', { id: value });
     };
 
     return {
       updateStage,
       inputValue,
       updateInputValue,
-      $store,
+      store,
     };
   },
 });
