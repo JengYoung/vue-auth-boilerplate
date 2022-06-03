@@ -6,6 +6,7 @@ import state from './state';
 import { RootState, SignUpFormState } from './types';
 
 const SignUpFormModule: Module<SignUpFormState, RootState> = {
+  namespaced: true,
   state: () => state,
   mutations,
   actions,
