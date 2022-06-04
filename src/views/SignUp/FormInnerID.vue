@@ -10,10 +10,17 @@
     @update:modelValue="updateInputValue"
   />
 
-  <FormButton class="form-inner__button" @click.prevent="() => updateStage(true)" :disabled="!inputValue">시작하기</FormButton>
+  <FormButton
+    class="form-inner__button"
+    @click.prevent="() => updateStage(true)"
+    :disabled="!inputValue"
+  >
+    시작하기
+  </FormButton>
 </template>
 
 <script lang="ts">
+import yup from 'yup';
 import { defineComponent, ref } from 'vue';
 import FormButton from '@/components/Button/FormButton.vue';
 import LabelInput from '@/components/Input/LabelInput.vue';
