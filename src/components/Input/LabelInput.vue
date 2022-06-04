@@ -14,16 +14,17 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'FormContainer',
   props: {
     type: {
       type: String,
+      required: false,
       default: 'text',
     },
-    inputValue: {
+    modelValue: {
       type: [String, Number],
       default: '',
     },
@@ -34,13 +35,12 @@ export default defineComponent({
   emits: ['update:modelValue'],
 
   setup(props, { emit }) {
-    const value = computed(() => props.inputValue);
     const updateModelValue = (e: Event) => {
       if (!e.target) return;
       emit('update:modelValue', (e.target as HTMLInputElement).value);
     };
+
     return {
-      value,
       updateModelValue,
     };
   },

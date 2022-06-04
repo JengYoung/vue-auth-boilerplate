@@ -1,5 +1,5 @@
 <template>
-  <button class="button">
+  <button class="button" :disabled="disabled">
     <slot></slot>
   </button>
 </template>
@@ -8,6 +8,12 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
+  props: {
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+  },
   setup() {
     return {};
   },

@@ -2,7 +2,7 @@
   <h1>
     회원가입이 완료되었어요! 🎉
   </h1>
-  <FormButton @click="moveLoginPage">로그인으로 이동하기</FormButton>
+  <FormButton @click.prevent="moveLoginPage">로그인으로 이동하기</FormButton>
 </template>
 
 <script lang="ts">

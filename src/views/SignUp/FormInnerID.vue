@@ -53,8 +53,6 @@ export default defineComponent({
 .form-inner__header {
   display: flex;
   flex-direction: column;
-  // margin-bottom: 2rem;
-  height: 240px;
   justify-content: center;
 }
 .form-inner__button {
