@@ -9,7 +9,7 @@
     v-model="inputValue"
     @update:modelValue="updateInputValue"
   />
-
+  {{ isValid }}
   <FormButton
     class="form-inner__button"
     @click.prevent="() => updateStage(true)"
@@ -20,8 +20,7 @@
 </template>
 
 <script lang="ts">
-import yup from 'yup';
-import { defineComponent, ref } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 import FormButton from '@/components/Button/FormButton.vue';
 import LabelInput from '@/components/Input/LabelInput.vue';
 import { useStore } from 'vuex';
@@ -38,6 +37,8 @@ export default defineComponent({
     const inputValue = ref('');
     const store = useStore();
 
+    const isValid = computed(() => store.getters['signUp/isValidId']);
+
     const updateStage = (checked: boolean) => {
       emit('update:stages', { stage: 'FormInnerID', checked });
     };
@@ -51,6 +52,7 @@ export default defineComponent({
       inputValue,
       updateInputValue,
       store,
+      isValid,
     };
   },
 });
