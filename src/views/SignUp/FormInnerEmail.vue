@@ -3,20 +3,16 @@
     <h2>사용하실 이메일을 입력해주세요!</h2>
   </header>
 
-  <!-- <LabelInput
-    type="email"
-    name="이메일"
-    placeholder="이메일을 입력해줴요!"
-    v-model="inputValue"
-    @update:modelValue="updateInputValue"
-  /> -->
-
   <form ref="form" @submit.prevent="sendEmail">
-    <LabelInput
+    <ConfirmInput
       type="email"
       name="이메일"
       v-model="inputValue"
-      @update:modelValue="updateInputValue"
+      placeholder="이메일을 입력해주세요!"
+      buttonText="인증번호 받기 🚪"
+      :disabled="isAuth"
+      @update:submit="updateInputValue"
+      @update:inputValue="(value) => inputValue = value"
     />
 
     <Text
@@ -27,20 +23,23 @@
       사용 가능한 이메일입니다!
     </Text>
 
-    <button type="submit">이메일 인증 번호 받기</button>
   </form>
 
-  <form v-if="authCodeInput.isActive">
+  <form class="auth-code-form" v-if="authCodeInput.isActive" @submit.prevent="">
     <template v-if="!isAuth">
-      <LabelInput
+      <ConfirmInput
+        type="text"
         name="인증번호"
         v-model="authCodeInput.value"
+        placeholder="인증번호를 입력해주세요!"
+        buttonText="확인 🔑"
+        @update:submit="onAuthCodeSubmit"
+        @update:inputValue="(value) => authCodeInput.value = value"
       />
-      <button @click="onAuthCodeSubmit">확인</button>
     </template>
 
     <template v-else>
-      <Text type="success" size="12px">인증이 완료되었어요! 🎉</Text>
+      <Text class="auth-code-form--success" type="success" size="12px" tag="div" align="center">인증이 완료되었어요! 🎉</Text>
     </template>
   </form>
 
@@ -62,14 +61,14 @@ import { useStore } from 'vuex';
 import Text from '@/components/Text/Index.vue';
 import SignUpFormSchema from '@/utils/validator';
 import emailjs from '@emailjs/browser';
-import LabelInput from '@/components/Input/LabelInput.vue';
+import ConfirmInput from '@/components/Input/ConfirmInput.vue';
 
 export default defineComponent({
   name: 'FormInnerEmail',
   components: {
     FormButton,
     Text,
-    LabelInput,
+    ConfirmInput,
   },
   emits: ['update:stages'],
 
@@ -126,6 +125,7 @@ export default defineComponent({
     };
 
     const onAuthCodeSubmit = () => {
+      console.log('검사', 'ai: ', authCodeInput.value.value, 'ac: ', authCode.value, authCodeInput.value.value === authCode.value);
       if (authCodeInput.value.value !== authCode.value) return;
 
       isAuth.value = true;
@@ -148,6 +148,8 @@ export default defineComponent({
       sendEmail,
       onAuthCodeSubmit,
       onClickNextStageButton,
+      formValues,
+      authCode,
     };
   },
 });
@@ -168,6 +170,14 @@ export default defineComponent({
   &:disabled {
     background-color: #eeeeee;
     color: #aaaaaa;
+  }
+}
+
+.auth-code-form {
+
+  margin-top: 2rem;
+  .auth-code-form__text--success {
+    text-align: center;
   }
 }
 </style>
