@@ -5,11 +5,26 @@
 
   <LabelInput
     name="아이디"
-    placeholder="한글, 영어, 숫자 조합 최대 16자로 입력해주세요!"
+    placeholder="아이디는 공백 제외 4~16자로 입력해주세요!"
     v-model="inputValue"
     @update:modelValue="updateInputValue"
   />
-  {{ isValid }}
+
+  <ErrorText
+    v-if="inputValue.length && !isValid"
+    type="error"
+    size="12px"
+  >
+    아이디는 공백 제외 4~16자로 입력해주세요!
+  </ErrorText>
+  <ErrorText
+    v-else-if="inputValue.length && isValid"
+    type="success"
+    size="12px"
+  >
+    사용 가능한 ID입니다!
+  </ErrorText>
+
   <FormButton
     class="form-inner__button"
     @click.prevent="() => updateStage(true)"
@@ -20,16 +35,19 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue';
+import { watch, defineComponent, ref } from 'vue';
 import FormButton from '@/components/Button/FormButton.vue';
 import LabelInput from '@/components/Input/LabelInput.vue';
 import { useStore } from 'vuex';
+import ErrorText from '@/components/Text/Index.vue';
+import SignUpFormSchema from '@/utils/validator';
 
 export default defineComponent({
   name: 'FormInnerID',
   components: {
     FormButton,
     LabelInput,
+    ErrorText,
   },
   emits: ['update:stages'],
 
@@ -37,7 +55,11 @@ export default defineComponent({
     const inputValue = ref('');
     const store = useStore();
 
-    const isValid = computed(() => store.getters['signUp/isValidId']);
+    const isValid = ref(false);
+
+    watch([inputValue], async () => {
+      isValid.value = await SignUpFormSchema.isValid({ id: store.state.signUp.id });
+    });
 
     const updateStage = (checked: boolean) => {
       emit('update:stages', { stage: 'FormInnerID', checked });
@@ -63,6 +85,8 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   justify-content: center;
+
+  margin-bottom: 2rem;
 }
 .form-inner__button {
   margin-top: auto;

@@ -37,7 +37,7 @@ import { defineComponent, ref } from 'vue';
 import FormButton from '@/components/Button/FormButton.vue';
 import LabelInput from '@/components/Input/LabelInput.vue';
 import { useStore } from 'vuex';
-import ErrorText from '@/components/Text/ErrorText.vue';
+import ErrorText from '@/components/Text/Index.vue';
 
 export default defineComponent({
   name: 'FormInnerID',
