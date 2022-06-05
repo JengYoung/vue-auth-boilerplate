@@ -12,98 +12,142 @@
   /> -->
 
   <form ref="form" @submit.prevent="sendEmail">
-    <label for="user_email">
-      Email
-    <input type="email" name="user_email">
-    </label>
+    <LabelInput
+      type="email"
+      name="이메일"
+      v-model="inputValue"
+      @update:modelValue="updateInputValue"
+    />
+
+    <Text
+      v-if="inputValue.length && isValid"
+      type="success"
+      size="12px"
+    >
+      사용 가능한 이메일입니다!
+    </Text>
 
     <button type="submit">이메일 인증 번호 받기</button>
   </form>
 
-  <ErrorText
-    v-if="inputValue.length && !isValid"
-    type="error"
-    size="12px"
-  >
-    아이디는 공백 제외 4~16자로 입력해주세요!
-  </ErrorText>
-  <ErrorText
-    v-else-if="inputValue.length && isValid"
-    type="success"
-    size="12px"
-  >
-    사용 가능한 ID입니다!
-  </ErrorText>
+  <form v-if="authCodeInput.isActive">
+    <template v-if="!isAuth">
+      <LabelInput
+        name="인증번호"
+        v-model="authCodeInput.value"
+      />
+      <button @click="onAuthCodeSubmit">확인</button>
+    </template>
+
+    <template v-else>
+      <Text type="success" size="12px">인증이 완료되었어요! 🎉</Text>
+    </template>
+  </form>
 
   <FormButton
     class="form-inner__button"
-    @click.prevent="() => updateStage(true)"
+    @click.prevent="onClickNextStageButton"
     :disabled="!inputValue"
   >
-    시작하기
+    인증 완료하기
   </FormButton>
 </template>
 
 <script lang="ts">
-import { watch, defineComponent, ref } from 'vue';
+import {
+  watch, defineComponent, ref,
+} from 'vue';
 import FormButton from '@/components/Button/FormButton.vue';
 import { useStore } from 'vuex';
-import ErrorText from '@/components/Text/Index.vue';
+import Text from '@/components/Text/Index.vue';
 import SignUpFormSchema from '@/utils/validator';
 import emailjs from '@emailjs/browser';
+import LabelInput from '@/components/Input/LabelInput.vue';
 
 export default defineComponent({
   name: 'FormInnerEmail',
   components: {
     FormButton,
-    ErrorText,
+    Text,
+    LabelInput,
   },
   emits: ['update:stages'],
 
   setup(props, { emit }) {
     emailjs.init(process.env.VUE_APP_PUBLIC_KEY);
 
-    const form = ref<HTMLFormElement | null>(null);
-    const inputValue = ref('');
     const store = useStore();
 
+    const form = ref<HTMLFormElement | null>(null);
+
+    const inputValue = ref('');
+    const authCodeInput = ref({
+      isActive: false,
+      value: '',
+    });
+
+    const formValues = ref({
+      name: store.state.signUp.id,
+      email: inputValue,
+      auth_code: new Date().getTime(),
+    });
+
     const isValid = ref(false);
+    const authCode = ref('');
+    const isAuth = ref(false);
 
     watch([inputValue], async () => {
-      isValid.value = await SignUpFormSchema.isValid({ id: store.state.signUp.id });
+      isValid.value = await SignUpFormSchema.isValid({ email: store.state.signUp.email });
     });
 
     const updateStage = (checked: boolean) => {
-      emit('update:stages', { stage: 'FormInnerID', checked });
+      emit('update:stages', { stage: 'FormInnerEmail', checked });
     };
 
     const updateInputValue = (value: string | number) => {
-      store.dispatch('signUp/updateState', { id: value });
+      store.dispatch('signUp/updateState', { email: value });
     };
 
     const sendEmail = () => {
       if (form.value === null) return;
-      console.log(form.value);
 
-      emailjs.sendForm(
+      emailjs.send(
         process.env.VUE_APP_SERVICE_ID,
         process.env.VUE_APP_TEMPLATE_ID,
-        form.value,
+        formValues.value,
       ).then((response) => {
+        authCodeInput.value.isActive = true;
+        authCode.value = formValues.value.auth_code.toString();
+
         console.log('SUCCESS!', response.status, response.text);
       }, (error) => {
         console.log('FAILED...', error);
       });
     };
 
+    const onAuthCodeSubmit = () => {
+      if (authCodeInput.value.value !== authCode.value) return;
+
+      isAuth.value = true;
+    };
+
+    const onClickNextStageButton = () => {
+      if (!isAuth.value) return;
+      updateStage(true);
+    };
+
     return {
       form,
-      updateStage,
-      inputValue,
-      updateInputValue,
       store,
+      inputValue,
+      authCodeInput,
       isValid,
+      isAuth,
+      updateInputValue,
+      updateStage,
       sendEmail,
+      onAuthCodeSubmit,
+      onClickNextStageButton,
     };
   },
 });
