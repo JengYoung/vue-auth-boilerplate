@@ -11,6 +11,7 @@ import { defineComponent } from 'vue';
 import FormButton from '@/components/Button/FormButton.vue';
 
 export default defineComponent({
+  name: 'FormInnerFinish',
   components: {
     FormButton,
   },

@@ -61,7 +61,7 @@ import ErrorText from '@/components/Text/Index.vue';
 import SignUpFormSchema from '@/utils/validator';
 
 export default defineComponent({
-  name: 'FormInnerID',
+  name: 'FormInnerPassword',
   components: {
     FormButton,
     LabelInput,

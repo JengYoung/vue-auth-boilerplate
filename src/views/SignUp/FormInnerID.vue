@@ -71,8 +71,8 @@ export default defineComponent({
 
     return {
       updateStage,
-      inputValue,
       updateInputValue,
+      inputValue,
       store,
       isValid,
     };

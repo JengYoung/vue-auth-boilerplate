@@ -14,6 +14,7 @@ import FormInnerFinish from '@/views/SignUp/FormInnerFinish.vue';
 import FormInnerID from '@/views/SignUp/FormInnerID.vue';
 import FormInnerPassword from '@/views/SignUp/FormInnerPassword.vue';
 import FormInnerBirthday from '@/views/SignUp/FormInnerBirthday.vue';
+import FormInnerEmail from '@/views/SignUp/FormInnerEmail.vue';
 
 interface StageInterface {
   stage: string;
@@ -27,6 +28,7 @@ export default defineComponent({
     FormInnerID,
     FormInnerPassword,
     FormInnerBirthday,
+    FormInnerEmail,
     FormInnerFinish,
   },
   emits: ['update:stages'],
@@ -36,6 +38,7 @@ export default defineComponent({
       { stage: 'FormInnerID', checked: false },
       { stage: 'FormInnerPassword', checked: false },
       { stage: 'FormInnerBirthday', checked: false },
+      { stage: 'FormInnerEmail', checked: false },
       { stage: 'FormInnerFinish', checked: false },
     ]);
 

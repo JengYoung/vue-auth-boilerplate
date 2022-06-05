@@ -1,15 +1,24 @@
 <template>
   <header class="form-inner__header">
-    <h2>사용하실 아이디를 입력해주세요!</h2>
+    <h2>사용하실 이메일을 입력해주세요!</h2>
   </header>
 
-  <LabelInput
+  <!-- <LabelInput
     type="email"
     name="이메일"
     placeholder="이메일을 입력해줴요!"
     v-model="inputValue"
     @update:modelValue="updateInputValue"
-  />
+  /> -->
+
+  <form ref="form" @submit.prevent="sendEmail">
+    <label for="user_email">
+      Email
+    <input type="email" name="user_email">
+    </label>
+
+    <button type="submit">이메일 인증 번호 받기</button>
+  </form>
 
   <ErrorText
     v-if="inputValue.length && !isValid"
@@ -38,21 +47,23 @@
 <script lang="ts">
 import { watch, defineComponent, ref } from 'vue';
 import FormButton from '@/components/Button/FormButton.vue';
-import LabelInput from '@/components/Input/LabelInput.vue';
 import { useStore } from 'vuex';
 import ErrorText from '@/components/Text/Index.vue';
 import SignUpFormSchema from '@/utils/validator';
+import emailjs from '@emailjs/browser';
 
 export default defineComponent({
-  name: 'FormInnerID',
+  name: 'FormInnerEmail',
   components: {
     FormButton,
-    LabelInput,
     ErrorText,
   },
   emits: ['update:stages'],
 
   setup(props, { emit }) {
+    emailjs.init(process.env.VUE_APP_PUBLIC_KEY);
+
+    const form = ref<HTMLFormElement | null>(null);
     const inputValue = ref('');
     const store = useStore();
 
@@ -70,12 +81,29 @@ export default defineComponent({
       store.dispatch('signUp/updateState', { id: value });
     };
 
+    const sendEmail = () => {
+      if (form.value === null) return;
+      console.log(form.value);
+
+      emailjs.sendForm(
+        process.env.VUE_APP_SERVICE_ID,
+        process.env.VUE_APP_TEMPLATE_ID,
+        form.value,
+      ).then((response) => {
+        console.log('SUCCESS!', response.status, response.text);
+      }, (error) => {
+        console.log('FAILED...', error);
+      });
+    };
+
     return {
+      form,
       updateStage,
       inputValue,
       updateInputValue,
       store,
       isValid,
+      sendEmail,
     };
   },
 });
