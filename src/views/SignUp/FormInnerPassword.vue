@@ -8,6 +8,7 @@
     name="비밀번호"
     placeholder="한글, 영대・소문자, 특수문자 조합으로 8~20자를 입력해주세요!"
     v-model="password"
+    @update:model-value="updatePasswordValue"
   />
 
   <LabelInput
@@ -18,26 +19,45 @@
   />
 
   <div class="form-inner__error-text-box">
-    <ErrorText v-if="password !== passwordConfirm">
-      비밀번호가 달라요! 😂
+    <ErrorText
+      v-if="password !== passwordConfirm"
+      type="error"
+      size="12px"
+    >
+      비밀번호가 달라요! 😅
+    </ErrorText>
+    <ErrorText
+      v-if="password === passwordConfirm && !isValid"
+      type="error"
+      size="12px"
+    >
+      비밀번호는 한글, 영대・소문자, 특수문자 조합으로 8~20자를 입력해주세요! {{ password }} {{passwordConfirm}}
+    </ErrorText>
+    <ErrorText
+      v-else-if="password === passwordConfirm && isValid"
+      type="success"
+      size="12px"
+    >
+      사용 가능한 비밀번호입니다!
     </ErrorText>
   </div>
 
   <FormButton
     class="form-inner__button"
     @click.prevent="onSubmit"
-    :disabled="!(isValid(password) && password === passwordConfirm)"
+    :disabled="!(isValid && password === passwordConfirm)"
   >
     비밀번호 입력을 완료했어요! 👋🏻
   </FormButton>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, watch } from 'vue';
 import FormButton from '@/components/Button/FormButton.vue';
 import LabelInput from '@/components/Input/LabelInput.vue';
 import { useStore } from 'vuex';
 import ErrorText from '@/components/Text/Index.vue';
+import SignUpFormSchema from '@/utils/validator';
 
 export default defineComponent({
   name: 'FormInnerID',
@@ -53,14 +73,18 @@ export default defineComponent({
     const passwordConfirm = ref('');
     const store = useStore();
 
-    const isValid = (value: string) => value.length >= 8;
+    const isValid = ref(false);
+
+    watch([password], async () => {
+      isValid.value = await SignUpFormSchema.isValid({ password: store.state.signUp.password });
+    });
 
     const updateStage = (checked: boolean) => {
       emit('update:stages', { stage: 'FormInnerPassword', checked });
     };
 
-    const updateInputValue = (value: string | number) => {
-      store.dispatch('signUp/updateState', { id: value });
+    const updatePasswordValue = (value: string | number) => {
+      store.dispatch('signUp/updateState', { password: value });
     };
 
     const onSubmit = () => {
@@ -76,7 +100,7 @@ export default defineComponent({
       updateStage,
       password,
       passwordConfirm,
-      updateInputValue,
+      updatePasswordValue,
       store,
       onSubmit,
       isValid,

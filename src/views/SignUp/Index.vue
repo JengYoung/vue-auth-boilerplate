@@ -39,8 +39,7 @@ export default defineComponent({
     const nowStage = computed(() => {
       let flag = false;
       let cnt = 0;
-      stages.value.forEach(({ checked }, idx) => {
-        console.log(checked, cnt, idx);
+      stages.value.forEach(({ checked }) => {
         if (flag) return;
 
         if (!checked) {

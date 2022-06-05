@@ -31,11 +31,14 @@ export default defineComponent({
       if (props.type === 'error') {
         return '#fa8aa3';
       }
+
       if (props.type === 'success') {
         return '#3ABBFC';
       }
+
       return '#aaaaaa';
     });
+
     return {
       textColor,
     };
