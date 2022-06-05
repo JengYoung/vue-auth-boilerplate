@@ -1,5 +1,6 @@
 <template>
   <header class="form-inner__header">
+    <h1>{{store.state.signUp.id}}님 반가워요 👋🏻</h1>
     <h2>사용하실 비밀번호를 입력해주세요!</h2>
   </header>
 
