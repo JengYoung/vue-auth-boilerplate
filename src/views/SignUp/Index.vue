@@ -111,7 +111,7 @@ export default defineComponent({
 
     .stage-enter-active {
       position: relative;
-      transition: all 0.25s ease-in;
+      transition: all 0.5s ease-in-out;
     }
 
     .stage-enter-from {
@@ -124,11 +124,11 @@ export default defineComponent({
     }
 
     .stage-leave-active {
-      transition: all 0.25s ease-in;
+      transition: all 0.25s ease-in-out;
     }
 
     .stage-leave-to {
-      transform: translate3d(-200px, 0px);
+      transform: translate3d(-200px, 0px, 0px);
       opacity: 0;
     }
   }
