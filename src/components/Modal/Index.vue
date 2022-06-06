@@ -10,10 +10,7 @@
           <slot name="body"></slot>
         </div>
 
-        <div class="modal__btn-box">
-          <FormButton class="modal__confirm-btn" @click.prevent="onConfirm">확인</FormButton>
-          <FormButton class="modal__cancel-btn" @click.prevent="onCancel">취소</FormButton>
-        </div>
+        <slot name="button"></slot>
       </div>
     </div>
   </div>
@@ -21,11 +18,9 @@
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
-import FormButton from '../Button/FormButton.vue';
 
 export default defineComponent({
   name: 'Modal',
-  components: { FormButton },
 
   props: {
     visible: {
@@ -35,26 +30,14 @@ export default defineComponent({
     },
   },
 
-  emits: ['update:confirm', 'update:cancel'],
-
-  setup(props, { emit }) {
+  setup(props) {
     const propsVisible = computed(() => props.visible);
     const modalStyle = computed(() => ({
       display: propsVisible.value ? 'flex' : 'none',
     }));
 
-    const onConfirm = () => {
-      emit('update:confirm');
-    };
-
-    const onCancel = () => {
-      emit('update:cancel');
-    };
-
     return {
       modalStyle,
-      onConfirm,
-      onCancel,
     };
   },
 });
@@ -77,7 +60,6 @@ export default defineComponent({
 
   .modal__container {
     width: 300px;
-    min-height: 160px;
 
     border-radius: 20px;
 
@@ -85,7 +67,11 @@ export default defineComponent({
     padding: 1.5rem;
 
     .modal__inner {
+      display: flex;
+      flex-direction: column;
+
       margin: 0 auto;
+      flex-shrink: 0;
 
       .modal__header {
         text-align: center;
@@ -95,40 +81,6 @@ export default defineComponent({
         display: flex;
         flex-direction: column;
         align-items: center;
-      }
-
-      .modal__btn-box {
-        display: flex;
-        align-items: flex-end;
-
-        margin-top: 1rem;
-
-        &::v-deep(.button) {
-          margin: 0 0.5rem;
-
-          &.modal__confirm-btn {
-            background-color: $c-cuccess;
-            opacity: 0.8;
-
-            &:hover {
-              opacity: 1;
-            }
-          }
-
-          &.modal__cancel-btn {
-            border: 1px solid $primary500;
-
-            background-color: #fff;
-
-            color: $primary500;
-
-            &:hover {
-              background-color: $primary500;
-
-              color: #fff;
-            }
-          }
-        }
       }
     }
   }
