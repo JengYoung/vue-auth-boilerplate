@@ -11,7 +11,7 @@
         v-model="inputValue"
         placeholder="이메일을 입력해주세요!"
         buttonText="인증번호 받기 🚪"
-        :disabled="isAuth"
+        :disabled="isAuth || !isValid"
         :isLoading = "isLoading"
         @update:submit="onSubmitEmail"
         @update:inputValue="(value) => inputValue = value"
@@ -158,7 +158,7 @@ export default defineComponent({
     const modalVisible = ref(false);
 
     watch([inputValue], async () => {
-      isValid.value = await SignUpFormSchema.isValid({ email: store.state.signUp.email });
+      isValid.value = await SignUpFormSchema.isValid({ email: inputValue.value });
     });
 
     const updateStage = (checked: boolean) => {
