@@ -28,9 +28,9 @@
   <FormButton
     class="form-inner__button"
     @click.prevent="() => updateStage(true)"
-    :disabled="!inputValue"
+    :disabled="!isValid"
   >
-    시작하기
+    아이디를 정했어요 🖐🏻
   </FormButton>
 </template>
 
