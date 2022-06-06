@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import {
-  defineComponent, ref, computed, onMounted,
+  defineComponent, ref, computed, onMounted, onUnmounted,
 } from 'vue';
 import Form from '@/components/Form/index.vue';
 import FormInnerIntro from '@/views/SignUp/FormInnerIntro.vue';
@@ -35,14 +35,21 @@ export default defineComponent({
   },
   emits: ['update:stages'],
   setup() {
-    onMounted(() => {
-      window.addEventListener('beforeunload', (e) => {
-        e.preventDefault();
-        e.returnValue = '';
+    const onBeforeUnloadCallback = (e: Event) => {
+      e.preventDefault();
+      e.returnValue = false;
 
-        return '';
-      });
+      return '';
+    };
+
+    onMounted(() => {
+      window.addEventListener('beforeunload', onBeforeUnloadCallback);
     });
+
+    onUnmounted(() => {
+      window.removeEventListener('beforeunload', onBeforeUnloadCallback);
+    });
+
     const stages = ref<StageInterface[]>([
       { stage: 'FormInnerIntro', checked: false },
       { stage: 'FormInnerID', checked: false },

@@ -20,6 +20,17 @@ module.exports = {
       'error',
       2,
     ],
+    // 'import/extensions': [
+    //   'error',
+    //   'ignorePackages',
+    //   {
+    //     js: 'never',
+    //     jsx: 'never',
+    //     ts: 'never',
+    //     tsx: 'never',
+    //     json: 'never',
+    //   },
+    // ],
   },
   overrides: [
     {
@@ -29,6 +40,19 @@ module.exports = {
       ],
       env: {
         jest: true,
+      },
+      rules: {
+        'import/extensions': [
+          'error',
+          'ignorePackages',
+          {
+            js: 'never',
+            jsx: 'never',
+            ts: 'never',
+            tsx: 'never',
+            json: 'never',
+          },
+        ],
       },
     },
   ],
