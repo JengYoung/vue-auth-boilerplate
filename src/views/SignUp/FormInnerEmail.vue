@@ -51,6 +51,21 @@
   >
     인증 완료하기
   </FormButton>
+
+  <Teleport to="body">
+    <Modal
+      :visible="modalVisible"
+      @update:confirm="onModalConfirm"
+      @update:cancel="onModalCancel"
+    >
+      <template #header>
+        <h2>모달</h2>
+      </template>
+      <template #body>
+        <div>내용</div>
+      </template>
+    </Modal>
+  </Teleport>
 </template>
 
 <script lang="ts">
@@ -63,6 +78,7 @@ import Text from '@/components/Text/Index.vue';
 import SignUpFormSchema from '@/utils/validator';
 import emailjs from '@emailjs/browser';
 import ConfirmInput from '@/components/Input/ConfirmInput.vue';
+import Modal from '@/components/Modal/Index.vue';
 
 export default defineComponent({
   name: 'FormInnerEmail',
@@ -70,6 +86,7 @@ export default defineComponent({
     FormButton,
     Text,
     ConfirmInput,
+    Modal,
   },
   emits: ['update:stages'],
 
@@ -85,6 +102,7 @@ export default defineComponent({
       isActive: false,
       value: '',
     });
+    const authCode = ref('');
 
     const formValues = ref({
       name: store.state.signUp.id,
@@ -93,9 +111,10 @@ export default defineComponent({
     });
 
     const isValid = ref(false);
-    const authCode = ref('');
     const isAuth = ref(false);
     const isLoading = ref(false);
+
+    const modalVisible = ref(false);
 
     watch([inputValue], async () => {
       isValid.value = await SignUpFormSchema.isValid({ email: store.state.signUp.email });
@@ -137,24 +156,45 @@ export default defineComponent({
 
     const onClickNextStageButton = () => {
       if (!isAuth.value) return;
+
+      modalVisible.value = true;
+      console.log(modalVisible.value);
+    };
+
+    const onModalConfirm = () => {
+      console.log('hi!');
+      modalVisible.value = false;
       updateStage(true);
+    };
+    const onModalCancel = () => {
+      modalVisible.value = false;
     };
 
     return {
       form,
+
       store,
+
       inputValue,
       authCodeInput,
+
       isValid,
       isAuth,
       isLoading,
-      updateInputValue,
-      updateStage,
-      sendEmail,
-      onAuthCodeSubmit,
-      onClickNextStageButton,
+      modalVisible,
+
       formValues,
       authCode,
+
+      updateInputValue,
+      sendEmail,
+      onAuthCodeSubmit,
+
+      updateStage,
+      onClickNextStageButton,
+
+      onModalConfirm,
+      onModalCancel,
     };
   },
 });

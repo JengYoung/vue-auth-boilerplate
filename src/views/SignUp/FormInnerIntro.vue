@@ -3,6 +3,7 @@
     <h1>5분 안에 간편하게</h1>
     <h3>회원 가입을 완료해볼까요? 🙌</h3>
   </header>
+
   <FormButton class="form-inner__button" @click.prevent="() => updateStage(true)">시작하기</FormButton>
 </template>
 

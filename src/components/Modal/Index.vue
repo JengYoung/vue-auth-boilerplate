@@ -11,8 +11,8 @@
         </div>
 
         <div class="modal__btn-box">
-          <FormButton class="modal__confirm-btn">확인</FormButton>
-          <FormButton class="modal__cancel-btn">취소</FormButton>
+          <FormButton class="modal__confirm-btn" @click.prevent="onConfirm">확인</FormButton>
+          <FormButton class="modal__cancel-btn" @click.prevent="onCancel">취소</FormButton>
         </div>
       </div>
     </div>
@@ -20,20 +20,49 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { computed, defineComponent } from 'vue';
 import FormButton from '../Button/FormButton.vue';
 
 export default defineComponent({
-  setup() {
-    return {};
-  },
+  name: 'Modal',
   components: { FormButton },
+
+  props: {
+    visible: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+  },
+
+  emits: ['update:confirm', 'update:cancel'],
+
+  setup(props, { emit }) {
+    const propsVisible = computed(() => props.visible);
+    const modalStyle = computed(() => ({
+      display: propsVisible.value ? 'flex' : 'none',
+    }));
+
+    const onConfirm = () => {
+      emit('update:confirm');
+    };
+
+    const onCancel = () => {
+      emit('update:cancel');
+    };
+
+    return {
+      modalStyle,
+      onConfirm,
+      onCancel,
+    };
+  },
 });
 </script>
 
 <style lang="scss" scoped>
 .modal__bg {
-  display: flex;
+  display: v-bind('modalStyle.display');
   justify-content: center;
   align-items: center;
 
@@ -70,9 +99,13 @@ export default defineComponent({
 
       .modal__btn-box {
         display: flex;
+        align-items: flex-end;
+
         margin-top: 1rem;
+
         &::v-deep(.button) {
-          margin: 0.5rem;
+          margin: 0 0.5rem;
+
           &.modal__confirm-btn {
             background-color: $c-cuccess;
             opacity: 0.8;
@@ -83,12 +116,15 @@ export default defineComponent({
           }
 
           &.modal__cancel-btn {
-            background-color: #fff;
-            color: $primary500;
             border: 1px solid $primary500;
+
+            background-color: #fff;
+
+            color: $primary500;
 
             &:hover {
               background-color: $primary500;
+
               color: #fff;
             }
           }
