@@ -19,7 +19,7 @@
     <button
       v-else
       class="confirm-input-box__button"
-      @click="onSubmit"
+      @click.prevent="onSubmit"
       :disabled="disabled"
     >
       {{ buttonText }}
@@ -58,7 +58,7 @@ export default defineComponent({
 
   setup(props, { emit }) {
     const onSubmit = () => {
-      emit('update:submit');
+      emit('update:submit', props.modelValue);
     };
 
     const updateInputValue = (value: string) => {

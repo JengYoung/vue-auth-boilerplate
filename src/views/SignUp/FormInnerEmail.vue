@@ -3,7 +3,7 @@
     <h2>사용하실 이메일을 입력해주세요!</h2>
   </header>
 
-  <form ref="form" @submit.prevent="sendEmail">
+  <form ref="form">
     <ConfirmInput
       type="email"
       name="이메일"
@@ -11,9 +11,9 @@
       placeholder="이메일을 입력해주세요!"
       buttonText="인증번호 받기 🚪"
       :disabled="isAuth"
-      @update:submit="updateInputValue"
-      @update:inputValue="(value) => inputValue = value"
       :isLoading = "isLoading"
+      @update:submit="onSubmitEmail"
+      @update:inputValue="(value) => inputValue = value"
     />
 
     <Text
@@ -59,10 +59,12 @@
       @update:cancel="onModalCancel"
     >
       <template #header>
-        <h2>모달</h2>
+        <h2>잠깐! 입력 정보 확인할게요 👋🏻</h2>
       </template>
       <template #body>
-        <div>내용</div>
+        <div><strong>ID: </strong>{{store.state.signUp.id}}</div>
+        <div><strong>생년월일: </strong>{{store.state.signUp.birthday}}</div>
+        <div><strong>이메일: </strong>{{store.state.signUp.email}}</div>
       </template>
     </Modal>
   </Teleport>
@@ -124,10 +126,6 @@ export default defineComponent({
       emit('update:stages', { stage: 'FormInnerEmail', checked });
     };
 
-    const updateInputValue = (value: string | number) => {
-      store.dispatch('signUp/updateState', { email: value });
-    };
-
     const sendEmail = () => {
       if (form.value === null) return;
       isLoading.value = true;
@@ -148,6 +146,11 @@ export default defineComponent({
       });
     };
 
+    const onSubmitEmail = (value: string | number) => {
+      store.dispatch('signUp/updateState', { email: value });
+      sendEmail();
+    };
+
     const onAuthCodeSubmit = () => {
       if (authCodeInput.value.value !== authCode.value) return;
 
@@ -158,11 +161,9 @@ export default defineComponent({
       if (!isAuth.value) return;
 
       modalVisible.value = true;
-      console.log(modalVisible.value);
     };
 
     const onModalConfirm = () => {
-      console.log('hi!');
       modalVisible.value = false;
       updateStage(true);
     };
@@ -186,7 +187,7 @@ export default defineComponent({
       formValues,
       authCode,
 
-      updateInputValue,
+      onSubmitEmail,
       sendEmail,
       onAuthCodeSubmit,
 
@@ -220,7 +221,7 @@ export default defineComponent({
 
 .auth-code-form {
 
-  margin-top: 2rem;
+  margin: 1.5rem 0;
   .auth-code-form__text--success {
     text-align: center;
   }
