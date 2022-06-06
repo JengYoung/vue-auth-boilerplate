@@ -94,6 +94,13 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+
+:global(.form-inner) {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
 .sign-up {
   display: flex;
   flex-direction: column;

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="form-inner">
     <header class="form-inner__header">
       <h2>사용하실 아이디를 입력해주세요!</h2>
     </header>

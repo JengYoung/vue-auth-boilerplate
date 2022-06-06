@@ -21,6 +21,8 @@ export default defineComponent({
 }
 
 .header {
+  box-sizing: border-box;
+
   display: flex;
   align-items: center;
 

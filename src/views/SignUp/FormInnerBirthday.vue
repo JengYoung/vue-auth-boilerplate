@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="form-inner">
     <header class="form-inner__header">
       <h1>{{store.state.signUp.id}}님!</h1>
       <h2>생년월일은 어떻게 되시나요?</h2>

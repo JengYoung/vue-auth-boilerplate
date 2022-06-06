@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="form-inner">
     <header class="form-inner__header">
       <h1>5분 안에 간편하게</h1>
       <h3>회원 가입을 완료해볼까요? 🙌</h3>
@@ -31,6 +31,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+
 .form-inner__header {
   display: flex;
   flex-direction: column;
