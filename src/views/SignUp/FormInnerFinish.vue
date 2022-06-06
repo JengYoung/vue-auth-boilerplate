@@ -3,7 +3,8 @@
     <h1>
       회원가입이 완료되었어요! 🎉
     </h1>
-    <FormButton @click.prevent="moveLoginPage">로그인으로 이동하기</FormButton>
+
+    <FormButton class="form-inner__button" @click.prevent="moveLoginPage">로그인으로 이동하기</FormButton>
   </div>
 </template>
 
@@ -29,6 +30,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+.form-inner__button {
+  margin-top: auto;
+}
 </style>

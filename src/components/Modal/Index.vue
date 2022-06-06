@@ -82,40 +82,6 @@ export default defineComponent({
         flex-direction: column;
         align-items: center;
       }
-
-      .modal__btn-box {
-        display: flex;
-        align-items: flex-end;
-
-        margin-top: 1rem;
-
-        &::v-deep(.button) {
-          margin: 0 0.5rem;
-
-          &.modal__confirm-btn {
-            background-color: $c-cuccess;
-            opacity: 0.8;
-
-            &:hover {
-              opacity: 1;
-            }
-          }
-
-          &.modal__cancel-btn {
-            border: 1px solid $primary500;
-
-            background-color: #fff;
-
-            color: $primary500;
-
-            &:hover {
-              background-color: $primary500;
-
-              color: #fff;
-            }
-          }
-        }
-      }
     }
   }
 }
