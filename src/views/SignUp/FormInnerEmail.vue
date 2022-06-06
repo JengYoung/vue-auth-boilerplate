@@ -54,23 +54,36 @@
     </FormButton>
 
     <Teleport to="body">
-      <Modal
-        :visible="modalVisible"
-        @update:confirm="onModalConfirm"
-        @update:cancel="onModalCancel"
-      >
+      <Modal :visible="modalVisible" v-if="!notWrittenData">
         <template #header>
-          <h2>{{ !notWrittenData ? '잠깐! 입력 정보 확인할게요 👋🏻' : '앗! 정보가 누락된 것 같아요. 🥲' }}</h2>
+          <h2>잠깐! 입력 정보 확인할게요 👋🏻</h2>
         </template>
 
-        <template #body v-if="!notWrittenData">
+        <template #body>
           <div><strong>ID: </strong>{{store.state.signUp.id}}</div>
           <div><strong>생년월일: </strong>{{store.state.signUp.birthday}}</div>
           <div><strong>이메일: </strong>{{store.state.signUp.email}}</div>
         </template>
 
-        <template #body v-else>
+        <template #button>
+          <ModalConfirmCancelButtons
+            @update:confirm="onModalConfirm"
+            @update:cancel="onModalCancel"
+          />
+        </template>
+      </Modal>
+
+      <Modal :visible="modalVisible" v-if="notWrittenData">
+        <template #header>
+          <h2>앗! 정보가 누락된 것 같아요 🥲</h2>
+        </template>
+
+        <template #body>
           {{ notWrittenData }}
+        </template>
+
+        <template #button>
+          <FormButton class="modal__confirm-btn" @click="onModalCancel">확인</FormButton>
         </template>
       </Modal>
     </Teleport>
@@ -88,6 +101,7 @@ import SignUpFormSchema from '@/utils/validator';
 import emailjs from '@emailjs/browser';
 import ConfirmInput from '@/components/Input/ConfirmInput.vue';
 import Modal from '@/components/Modal/Index.vue';
+import ModalConfirmCancelButtons from '@/components/ButtonGroup/ModalConfirmCancelButtons.vue';
 
 export default defineComponent({
   name: 'FormInnerEmail',
@@ -96,6 +110,7 @@ export default defineComponent({
     Text,
     ConfirmInput,
     Modal,
+    ModalConfirmCancelButtons,
   },
   emits: ['update:stages'],
 
@@ -234,6 +249,7 @@ export default defineComponent({
 
   margin-bottom: 2rem;
 }
+
 .form-inner__button {
   margin-top: auto;
   transition: all 0.3s;
@@ -250,5 +266,9 @@ export default defineComponent({
   .auth-code-form__text--success {
     text-align: center;
   }
+}
+
+.modal__confirm-btn {
+  margin-top: 2rem;
 }
 </style>
