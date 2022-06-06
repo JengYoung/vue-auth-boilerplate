@@ -1,7 +1,11 @@
 <template>
   <div class="sign-up container">
     <Form class="sign-up__form">
-      <component :is="stages[nowStage].stage" @update:stages="updateStages"></component>
+      <KeepAlive>
+        <Transition name="stage" mode="out-in">
+          <component :is="stages[nowStage].stage" @update:stages="updateStages"></component>
+        </Transition>
+      </KeepAlive>
     </Form>
   </div>
 </template>
@@ -90,6 +94,13 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+
+:global(.form-inner) {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
 .sign-up {
   display: flex;
   flex-direction: column;
@@ -97,12 +108,36 @@ export default defineComponent({
   align-items: center;
 
   .sign-up__form {
+    overflow: hidden;
     display: flex;
     flex-direction: column;
 
     position: relative;
 
     min-height: 400px;
+
+    .stage-enter-active {
+      position: relative;
+      transition: all 0.5s ease-in-out;
+    }
+
+    .stage-enter-from {
+      opacity: 0;
+      transform: translate3d(200px, 0px, 0px);
+    }
+
+    .stage-enter-to {
+      opacity: 1;
+    }
+
+    .stage-leave-active {
+      transition: all 0.25s ease-in-out;
+    }
+
+    .stage-leave-to {
+      transform: translate3d(-200px, 0px, 0px);
+      opacity: 0;
+    }
   }
 }
 </style>

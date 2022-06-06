@@ -1,37 +1,39 @@
 <template>
-  <header class="form-inner__header">
-    <h2>사용하실 아이디를 입력해주세요!</h2>
-  </header>
+  <div class="form-inner">
+    <header class="form-inner__header">
+      <h2>사용하실 아이디를 입력해주세요!</h2>
+    </header>
 
-  <LabelInput
-    name="아이디"
-    placeholder="아이디는 공백 제외 4~16자로 입력해주세요!"
-    v-model="inputValue"
-    @update:modelValue="updateInputValue"
-  />
+    <LabelInput
+      name="아이디"
+      placeholder="아이디는 공백 제외 4~16자로 입력해주세요!"
+      v-model="inputValue"
+      @update:modelValue="updateInputValue"
+    />
 
-  <ErrorText
-    v-if="inputValue.length && !isValid"
-    type="error"
-    size="12px"
-  >
-    아이디는 공백 제외 4~16자로 입력해주세요!
-  </ErrorText>
-  <ErrorText
-    v-else-if="inputValue.length && isValid"
-    type="success"
-    size="12px"
-  >
-    사용 가능한 ID입니다!
-  </ErrorText>
+    <ErrorText
+      v-if="inputValue.length && !isValid"
+      type="error"
+      size="12px"
+    >
+      아이디는 공백 제외 4~16자로 입력해주세요!
+    </ErrorText>
+    <ErrorText
+      v-else-if="inputValue.length && isValid"
+      type="success"
+      size="12px"
+    >
+      사용 가능한 ID입니다!
+    </ErrorText>
 
-  <FormButton
-    class="form-inner__button"
-    @click.prevent="() => updateStage(true)"
-    :disabled="!isValid"
-  >
-    아이디를 정했어요 🖐🏻
-  </FormButton>
+    <FormButton
+      class="form-inner__button"
+      @click.prevent="() => updateStage(true)"
+      :disabled="!isValid"
+    >
+      아이디를 정했어요 🖐🏻
+    </FormButton>
+  </div>
 </template>
 
 <script lang="ts">
