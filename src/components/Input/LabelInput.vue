@@ -2,7 +2,13 @@
   <div class="label-input">
     <label class="label-input__label" :for="uniqueInputId">
       <span class="label-input__name">{{ name }}</span>
-      <input type="text" class="label-input__input" :id="uniqueInputId">
+      <input
+        :type="type"
+        class="label-input__input"
+        :id="uniqueInputId"
+        :placeholder="placeholder"
+        @input="(e) => updateModelValue(e)"
+        >
     </label>
   </div>
 </template>
@@ -13,11 +19,30 @@ import { defineComponent } from 'vue';
 export default defineComponent({
   name: 'FormContainer',
   props: {
+    type: {
+      type: String,
+      required: false,
+      default: 'text',
+    },
+    modelValue: {
+      type: [String, Number],
+      default: '',
+    },
     uniqueInputId: String,
     name: String,
+    placeholder: String,
   },
-  setup() {
-    return {};
+  emits: ['update:modelValue'],
+
+  setup(props, { emit }) {
+    const updateModelValue = (e: Event) => {
+      if (!e.target) return;
+      emit('update:modelValue', (e.target as HTMLInputElement).value);
+    };
+
+    return {
+      updateModelValue,
+    };
   },
 });
 </script>

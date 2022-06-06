@@ -14,6 +14,23 @@ module.exports = {
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'vue/multi-word-component-names': 'off',
+    'max-len': 'off',
+    '@typescript-eslint/indent': [
+      'error',
+      2,
+    ],
+    // 'import/extensions': [
+    //   'error',
+    //   'ignorePackages',
+    //   {
+    //     js: 'never',
+    //     jsx: 'never',
+    //     ts: 'never',
+    //     tsx: 'never',
+    //     json: 'never',
+    //   },
+    // ],
   },
   overrides: [
     {
@@ -23,6 +40,19 @@ module.exports = {
       ],
       env: {
         jest: true,
+      },
+      rules: {
+        'import/extensions': [
+          'error',
+          'ignorePackages',
+          {
+            js: 'never',
+            jsx: 'never',
+            ts: 'never',
+            tsx: 'never',
+            json: 'never',
+          },
+        ],
       },
     },
   ],
