@@ -7,7 +7,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+import {
+  defineComponent, ref, computed, onMounted,
+} from 'vue';
 import Form from '@/components/Form/index.vue';
 import FormInnerIntro from '@/views/SignUp/FormInnerIntro.vue';
 import FormInnerFinish from '@/views/SignUp/FormInnerFinish.vue';
@@ -33,6 +35,14 @@ export default defineComponent({
   },
   emits: ['update:stages'],
   setup() {
+    onMounted(() => {
+      window.addEventListener('beforeunload', (e) => {
+        e.preventDefault();
+        e.returnValue = '';
+
+        return '';
+      });
+    });
     const stages = ref<StageInterface[]>([
       { stage: 'FormInnerIntro', checked: false },
       { stage: 'FormInnerID', checked: false },
