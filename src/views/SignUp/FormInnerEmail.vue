@@ -54,15 +54,16 @@
     </FormButton>
 
     <Teleport to="body">
-      <Modal :visible="modalVisible" v-if="!notWrittenData">
+      <Modal class="modal" :visible="modalVisible" v-if="!notWrittenData">
         <template #header>
           <h2>잠깐! 입력 정보 확인할게요 👋🏻</h2>
         </template>
 
         <template #body>
-          <div><strong>ID: </strong>{{store.state.signUp.id}}</div>
-          <div><strong>생년월일: </strong>{{store.state.signUp.birthday}}</div>
-          <div><strong>이메일: </strong>{{store.state.signUp.email}}</div>
+          <div class="modal__form-value"><strong>ID: </strong>{{store.state.signUp.id}}</div>
+          <div class="modal__form-value"><strong>생년월일: </strong>{{store.state.signUp.birthday}}</div>
+          <div class="modal__form-value"><strong>이메일: </strong>{{store.state.signUp.email}}</div>
+          <div class="modal__confirm-text">맞으시다면 <strong>확인</strong> 버튼을 눌러주세요!</div>
         </template>
 
         <template #button>
@@ -268,6 +269,19 @@ export default defineComponent({
   }
 }
 
+.modal {
+  .modal__form-value {
+    margin: 0.5rem 0;
+  }
+  .modal__confirm-text {
+    margin: 1rem 0;
+    color: #999999;
+
+    strong {
+      color: $c-success;
+    }
+  }
+}
 .modal__confirm-btn {
   margin-top: 2rem;
 }

@@ -39,7 +39,7 @@ export default defineComponent({
     margin: 0 0.5rem;
 
     &.modal__confirm-btn {
-      background-color: $c-cuccess;
+      background-color: $c-success;
       opacity: 0.8;
 
       &:hover {
