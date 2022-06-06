@@ -1,38 +1,40 @@
 <template>
-  <header class="form-inner__header">
-    <h1>{{store.state.signUp.id}}님!</h1>
-    <h2>생년월일은 어떻게 되시나요?</h2>
-  </header>
+  <div>
+    <header class="form-inner__header">
+      <h1>{{store.state.signUp.id}}님!</h1>
+      <h2>생년월일은 어떻게 되시나요?</h2>
+    </header>
 
-  <LabelInput
-    type="date"
-    name="생년월일"
-    v-model="inputValue"
-    @update:modelValue="updateInputValue"
-  />
+    <LabelInput
+      type="date"
+      name="생년월일"
+      v-model="inputValue"
+      @update:modelValue="updateInputValue"
+    />
 
-  <ErrorText
-    v-if="inputValue.length && !isValid"
-    type="error"
-    size="12px"
-  >
-    생년월일을 선택해주세요! 🙇‍♀️
-  </ErrorText>
-  <ErrorText
-    v-else-if="inputValue.length && isValid"
-    type="success"
-    size="12px"
-  >
-    생년월일을 확인했어요 🙆🏻
-  </ErrorText>
+    <ErrorText
+      v-if="inputValue.length && !isValid"
+      type="error"
+      size="12px"
+    >
+      생년월일을 선택해주세요! 🙇‍♀️
+    </ErrorText>
+    <ErrorText
+      v-else-if="inputValue.length && isValid"
+      type="success"
+      size="12px"
+    >
+      생년월일을 확인했어요 🙆🏻
+    </ErrorText>
 
-  <FormButton
-    class="form-inner__button"
-    @click.prevent="() => updateStage(true)"
-    :disabled="!inputValue"
-  >
-    시작하기
-  </FormButton>
+    <FormButton
+      class="form-inner__button"
+      @click.prevent="() => updateStage(true)"
+      :disabled="!inputValue"
+    >
+      시작하기
+    </FormButton>
+  </div>
 </template>
 
 <script lang="ts">

@@ -1,55 +1,57 @@
 <template>
-  <header class="form-inner__header">
-    <h2>{{store.state.signUp.id}}님 반가워요 👋🏻</h2>
-    <h3>사용하실 비밀번호를 입력해주세요!</h3>
-  </header>
+  <div>
+    <header class="form-inner__header">
+      <h2>{{store.state.signUp.id}}님 반가워요 👋🏻</h2>
+      <h3>사용하실 비밀번호를 입력해주세요!</h3>
+    </header>
 
-  <LabelInput
-    type="password"
-    name="비밀번호"
-    placeholder="한글, 영대・소문자, 특수문자 조합으로 8~20자를 입력해주세요!"
-    v-model="password"
-    @update:model-value="updatePasswordValue"
-  />
+    <LabelInput
+      type="password"
+      name="비밀번호"
+      placeholder="한글, 영대・소문자, 특수문자 조합으로 8~20자를 입력해주세요!"
+      v-model="password"
+      @update:model-value="updatePasswordValue"
+    />
 
-  <LabelInput
-    type="password"
-    name="비밀번호 확인"
-    placeholder="다시 한 번 위의 문자를 입력해주세요!"
-    v-model="passwordConfirm"
-  />
+    <LabelInput
+      type="password"
+      name="비밀번호 확인"
+      placeholder="다시 한 번 위의 문자를 입력해주세요!"
+      v-model="passwordConfirm"
+    />
 
-  <div class="form-inner__error-text-box">
-    <ErrorText
-      v-if="password !== passwordConfirm"
-      type="error"
-      size="12px"
+    <div class="form-inner__error-text-box">
+      <ErrorText
+        v-if="password !== passwordConfirm"
+        type="error"
+        size="12px"
+      >
+        비밀번호가 달라요! 😅
+      </ErrorText>
+      <ErrorText
+        v-if="password === passwordConfirm && !isValid"
+        type="error"
+        size="12px"
+      >
+        비밀번호는 한글, 영대・소문자, 특수문자 조합으로 8~20자를 입력해주세요! {{ password }} {{passwordConfirm}}
+      </ErrorText>
+      <ErrorText
+        v-else-if="password === passwordConfirm && isValid"
+        type="success"
+        size="12px"
+      >
+        사용 가능한 비밀번호입니다!
+      </ErrorText>
+    </div>
+
+    <FormButton
+      class="form-inner__button"
+      @click.prevent="onSubmit"
+      :disabled="!(isValid && password === passwordConfirm)"
     >
-      비밀번호가 달라요! 😅
-    </ErrorText>
-    <ErrorText
-      v-if="password === passwordConfirm && !isValid"
-      type="error"
-      size="12px"
-    >
-      비밀번호는 한글, 영대・소문자, 특수문자 조합으로 8~20자를 입력해주세요! {{ password }} {{passwordConfirm}}
-    </ErrorText>
-    <ErrorText
-      v-else-if="password === passwordConfirm && isValid"
-      type="success"
-      size="12px"
-    >
-      사용 가능한 비밀번호입니다!
-    </ErrorText>
+      비밀번호 입력을 완료했어요! 👋🏻
+    </FormButton>
   </div>
-
-  <FormButton
-    class="form-inner__button"
-    @click.prevent="onSubmit"
-    :disabled="!(isValid && password === passwordConfirm)"
-  >
-    비밀번호 입력을 완료했어요! 👋🏻
-  </FormButton>
 </template>
 
 <script lang="ts">

@@ -1,78 +1,80 @@
 <template>
-  <header class="form-inner__header">
-    <h2>사용하실 이메일을 입력해주세요!</h2>
-  </header>
+  <div>
+    <header class="form-inner__header">
+      <h2>사용하실 이메일을 입력해주세요!</h2>
+    </header>
 
-  <form ref="form">
-    <ConfirmInput
-      type="email"
-      name="이메일"
-      v-model="inputValue"
-      placeholder="이메일을 입력해주세요!"
-      buttonText="인증번호 받기 🚪"
-      :disabled="isAuth"
-      :isLoading = "isLoading"
-      @update:submit="onSubmitEmail"
-      @update:inputValue="(value) => inputValue = value"
-    />
-
-    <Text
-      v-if="inputValue.length && isValid"
-      type="success"
-      size="12px"
-    >
-      사용 가능한 이메일입니다!
-    </Text>
-
-  </form>
-
-  <form class="auth-code-form" v-if="authCodeInput.isActive" @submit.prevent="">
-    <template v-if="!isAuth">
+    <form ref="form">
       <ConfirmInput
-        type="text"
-        name="인증번호"
-        v-model="authCodeInput.value"
-        placeholder="인증번호를 입력해주세요!"
-        buttonText="인증번호 확인 🔑"
-        @update:submit="onAuthCodeSubmit"
-        @update:inputValue="(value) => authCodeInput.value = value"
+        type="email"
+        name="이메일"
+        v-model="inputValue"
+        placeholder="이메일을 입력해주세요!"
+        buttonText="인증번호 받기 🚪"
+        :disabled="isAuth"
+        :isLoading = "isLoading"
+        @update:submit="onSubmitEmail"
+        @update:inputValue="(value) => inputValue = value"
       />
-    </template>
 
-    <template v-else>
-      <Text class="auth-code-form--success" type="success" size="12px" tag="div" align="center">인증이 완료되었어요! 🎉</Text>
-    </template>
-  </form>
+      <Text
+        v-if="inputValue.length && isValid"
+        type="success"
+        size="12px"
+      >
+        사용 가능한 이메일입니다!
+      </Text>
 
-  <FormButton
-    class="form-inner__button"
-    @click.prevent="onClickNextStageButton"
-    :disabled="!inputValue || !isAuth"
-  >
-    인증 완료하기
-  </FormButton>
+    </form>
 
-  <Teleport to="body">
-    <Modal
-      :visible="modalVisible"
-      @update:confirm="onModalConfirm"
-      @update:cancel="onModalCancel"
+    <form class="auth-code-form" v-if="authCodeInput.isActive" @submit.prevent="">
+      <template v-if="!isAuth">
+        <ConfirmInput
+          type="text"
+          name="인증번호"
+          v-model="authCodeInput.value"
+          placeholder="인증번호를 입력해주세요!"
+          buttonText="인증번호 확인 🔑"
+          @update:submit="onAuthCodeSubmit"
+          @update:inputValue="(value) => authCodeInput.value = value"
+        />
+      </template>
+
+      <template v-else>
+        <Text class="auth-code-form--success" type="success" size="12px" tag="div" align="center">인증이 완료되었어요! 🎉</Text>
+      </template>
+    </form>
+
+    <FormButton
+      class="form-inner__button"
+      @click.prevent="onClickNextStageButton"
+      :disabled="!inputValue || !isAuth"
     >
-      <template #header>
-        <h2>{{ !notWrittenData ? '잠깐! 입력 정보 확인할게요 👋🏻' : '앗! 정보가 누락된 것 같아요. 🥲' }}</h2>
-      </template>
+      인증 완료하기
+    </FormButton>
 
-      <template #body v-if="!notWrittenData">
-        <div><strong>ID: </strong>{{store.state.signUp.id}}</div>
-        <div><strong>생년월일: </strong>{{store.state.signUp.birthday}}</div>
-        <div><strong>이메일: </strong>{{store.state.signUp.email}}</div>
-      </template>
+    <Teleport to="body">
+      <Modal
+        :visible="modalVisible"
+        @update:confirm="onModalConfirm"
+        @update:cancel="onModalCancel"
+      >
+        <template #header>
+          <h2>{{ !notWrittenData ? '잠깐! 입력 정보 확인할게요 👋🏻' : '앗! 정보가 누락된 것 같아요. 🥲' }}</h2>
+        </template>
 
-      <template #body v-else>
-        {{ notWrittenData }}
-      </template>
-    </Modal>
-  </Teleport>
+        <template #body v-if="!notWrittenData">
+          <div><strong>ID: </strong>{{store.state.signUp.id}}</div>
+          <div><strong>생년월일: </strong>{{store.state.signUp.birthday}}</div>
+          <div><strong>이메일: </strong>{{store.state.signUp.email}}</div>
+        </template>
+
+        <template #body v-else>
+          {{ notWrittenData }}
+        </template>
+      </Modal>
+    </Teleport>
+  </div>
 </template>
 
 <script lang="ts">
