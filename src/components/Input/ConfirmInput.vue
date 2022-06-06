@@ -10,7 +10,20 @@
       @update:modelValue="updateInputValue"
     />
 
-    <button class="confirm-input-box__button" @click="onSubmit" :disabled="disabled">{{ buttonText }}</button>
+    <div
+      v-if="isLoading"
+      class="confirm-input-box__loading"
+    >
+      로딩 중...
+    </div>
+    <button
+      v-else
+      class="confirm-input-box__button"
+      @click="onSubmit"
+      :disabled="disabled"
+    >
+      {{ buttonText }}
+    </button>
   </div>
 </template>
 
@@ -34,6 +47,7 @@ export default defineComponent({
     placeholder: String,
     buttonText: String,
     disabled: Boolean,
+    isLoading: Boolean,
   },
 
   components: {
@@ -74,27 +88,58 @@ export default defineComponent({
     margin-right: 1rem;
   }
 
+  .confirm-input-box__loading {
+    box-sizing: border-box;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 7.5rem;
+    height: 2.5rem;
+
+    border-radius: 10px;
+    border: 1px solid $primary500;
+
+    background-color: $primary500;
+
+    color: #fff;
+    font-size: 0.875rem;
+
+    transition: all 0.3s;
+  }
+
   .confirm-input-box__button {
     cursor: pointer;
+
+    width: 7.5rem;
     height: 2.5rem;
+
     border-radius: 10px;
     border: 1px solid $primary600;
+
     background-color: #fff;
+
     color: $primary600;
     font-size: 0.875rem;
-    padding: 0 0.75rem;
+
     transition: all 0.3s;
 
     &:hover {
       border: 1px solid $primary500;
+
       background-color: $primary500;
+
       color: #fff;
     }
 
     &:disabled {
       cursor: auto;
+
       background: #dddddd;
+
       color: #aaaaaa;
+
       border: 1px solid #fff;
     }
   }

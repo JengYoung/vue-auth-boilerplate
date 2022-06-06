@@ -13,6 +13,7 @@
       :disabled="isAuth"
       @update:submit="updateInputValue"
       @update:inputValue="(value) => inputValue = value"
+      :isLoading = "isLoading"
     />
 
     <Text
@@ -32,7 +33,7 @@
         name="인증번호"
         v-model="authCodeInput.value"
         placeholder="인증번호를 입력해주세요!"
-        buttonText="확인 🔑"
+        buttonText="인증번호 확인 🔑"
         @update:submit="onAuthCodeSubmit"
         @update:inputValue="(value) => authCodeInput.value = value"
       />
@@ -94,6 +95,7 @@ export default defineComponent({
     const isValid = ref(false);
     const authCode = ref('');
     const isAuth = ref(false);
+    const isLoading = ref(false);
 
     watch([inputValue], async () => {
       isValid.value = await SignUpFormSchema.isValid({ email: store.state.signUp.email });
@@ -109,6 +111,7 @@ export default defineComponent({
 
     const sendEmail = () => {
       if (form.value === null) return;
+      isLoading.value = true;
 
       emailjs.send(
         process.env.VUE_APP_SERVICE_ID,
@@ -121,11 +124,12 @@ export default defineComponent({
         console.log('SUCCESS!', response.status, response.text);
       }, (error) => {
         console.log('FAILED...', error);
+      }).finally(() => {
+        isLoading.value = false;
       });
     };
 
     const onAuthCodeSubmit = () => {
-      console.log('검사', 'ai: ', authCodeInput.value.value, 'ac: ', authCode.value, authCodeInput.value.value === authCode.value);
       if (authCodeInput.value.value !== authCode.value) return;
 
       isAuth.value = true;
@@ -143,6 +147,7 @@ export default defineComponent({
       authCodeInput,
       isValid,
       isAuth,
+      isLoading,
       updateInputValue,
       updateStage,
       sendEmail,
