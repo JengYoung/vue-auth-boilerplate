@@ -59,12 +59,17 @@
       @update:cancel="onModalCancel"
     >
       <template #header>
-        <h2>잠깐! 입력 정보 확인할게요 👋🏻</h2>
+        <h2>{{ !notWrittenData ? '잠깐! 입력 정보 확인할게요 👋🏻' : '앗! 정보가 누락된 것 같아요. 🥲' }}</h2>
       </template>
-      <template #body>
+
+      <template #body v-if="!notWrittenData">
         <div><strong>ID: </strong>{{store.state.signUp.id}}</div>
         <div><strong>생년월일: </strong>{{store.state.signUp.birthday}}</div>
         <div><strong>이메일: </strong>{{store.state.signUp.email}}</div>
+      </template>
+
+      <template #body v-else>
+        {{ notWrittenData }}
       </template>
     </Modal>
   </Teleport>
@@ -72,7 +77,7 @@
 
 <script lang="ts">
 import {
-  watch, defineComponent, ref,
+  watch, defineComponent, ref, computed,
 } from 'vue';
 import FormButton from '@/components/Button/FormButton.vue';
 import { useStore } from 'vuex';
@@ -96,6 +101,23 @@ export default defineComponent({
     emailjs.init(process.env.VUE_APP_PUBLIC_KEY);
 
     const store = useStore();
+
+    const notWrittenData = computed(() => {
+      if (!store.state.signUp.id) {
+        return '아이디를 다시 입력 부탁드려요 🙏🏻';
+      }
+      if (!store.state.signUp.password) {
+        return '비밀번호를 다시 입력 부탁드려요 🙏🏻';
+      }
+      if (!store.state.signUp.birthday) {
+        return '생일을 다시 입력 부탁드려요 🙏🏻';
+      }
+      if (!store.state.signUp.email) {
+        return '이메일을 다시 입력 부탁드려요 🙏🏻';
+      }
+
+      return '';
+    });
 
     const form = ref<HTMLFormElement | null>(null);
 
@@ -183,6 +205,7 @@ export default defineComponent({
       isAuth,
       isLoading,
       modalVisible,
+      notWrittenData,
 
       formValues,
       authCode,
