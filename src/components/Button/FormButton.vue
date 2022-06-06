@@ -36,8 +36,14 @@ export default defineComponent({
   color: white;
 
   &:hover {
-    transform: scale(1.05);
-    transition: all 0.3s;
+    &:not(&:disabled) {
+      transform: scale(1.05);
+      transition: all 0.3s;
+    }
+  }
+
+  &:disabled {
+    cursor: auto;
   }
 }
 </style>

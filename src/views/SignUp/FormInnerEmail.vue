@@ -47,7 +47,7 @@
   <FormButton
     class="form-inner__button"
     @click.prevent="onClickNextStageButton"
-    :disabled="!inputValue"
+    :disabled="!inputValue || !isAuth"
   >
     인증 완료하기
   </FormButton>
