@@ -8,10 +8,7 @@
       <LabelInput name="비밀번호" uniqueInputId="password"></LabelInput>
 
       <FormButton type="submit" @click.prevent="onSubmit">로그인하기</FormButton>
-      <router-link
-        class="form__register-page-link"
-        to="sign-up"
-      >
+      <router-link class="form__register-page-link" to="sign-up">
         회원가입
       </router-link>
     </Form>
