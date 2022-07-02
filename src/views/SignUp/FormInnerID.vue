@@ -60,7 +60,7 @@ export default defineComponent({
     const isValid = ref(false);
 
     watch([inputValue], async () => {
-      isValid.value = await SignUpFormSchema.isValid({ id: store.state.signUp.id });
+      isValid.value = inputValue.value.length >= 4 && inputValue.value.length <= 16;
     });
 
     const updateStage = (checked: boolean) => {

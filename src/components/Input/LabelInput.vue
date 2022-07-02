@@ -8,7 +8,7 @@
         :id="uniqueInputId"
         :placeholder="placeholder"
         @input="(e) => updateModelValue(e)"
-        >
+      >
     </label>
   </div>
 </template>
